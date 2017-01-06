@@ -14,7 +14,6 @@ public class PDFTextIndexer {
 	public static void indexer(PDFContent pdf, Dictionary dictionary, Document document) {
 
 		StringTokenizer tokenizer = new StringTokenizer(pdf.getContent(), " ");
-
 		int position = 1;
 		while (tokenizer.hasMoreTokens()) {
 			String token = tokenizer.nextToken().toLowerCase().trim();

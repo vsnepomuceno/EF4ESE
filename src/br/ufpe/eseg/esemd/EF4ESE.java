@@ -139,7 +139,7 @@ public class EF4ESE {
 				timeEnd = Calendar.getInstance().getTimeInMillis();
 				System.out.println("K-means = " + (timeEnd - timeBegin));
 				
-				timeBegin = Calendar.getInstance().getTimeInMillis();
+				/*timeBegin = Calendar.getInstance().getTimeInMillis();
 				for (int i = 0; i < 3; i++) {
 					ps = new PrintStream("resources/clusteringRandom"+i+".txt");
 					clusters = KMeans.kMeans(dictionary.getDocuments(), 6);
@@ -158,7 +158,7 @@ public class EF4ESE {
 				}
 				timeEnd = Calendar.getInstance().getTimeInMillis();
 				
-				System.out.println("K-means = " + (timeEnd - timeBegin));
+				System.out.println("K-means = " + (timeEnd - timeBegin));*/
 				
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -223,13 +223,19 @@ public class EF4ESE {
 
 	private static Dictionary indexerFiles(File[] files) throws IOException {
 		Dictionary dictionary = new Dictionary();
+		int id = 1;
 		for (int i = 0; i < files.length; i++) {
 			PDFContent pdf = PDFTextExtractor.getPDF(files[i]);
 			if (pdf != null) {
-				Document d = new Document(i + 1, files[i].getName());
-				dictionary.addDocument(i + 1, d);
+				Document d = new Document(id, files[i].getName());
 				PDFTextIndexer.indexer(pdf, dictionary, d);
-				System.out.println("FILE INDEXED (" + (i + 1) + "): " + files[i].getName());
+				if (d.getTerms().size() != 0) {
+					dictionary.addDocument(id, d);
+					System.out.println("FILE INDEXED (" + (id) + "): " + files[i].getName());
+					id++;
+				} else {
+					System.out.println("FILE NOT INDEXED: " + files[i].getName());
+				}
 			}
 		}
 
